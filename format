@@ -1,0 +1,64 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class FormatChecker {
+
+	public static void checkFormat(String fileName) throws FileNotFoundException {
+		File file = new File (fileName);
+		Scanner reader = new Scanner(file);
+		String Dimensions = reader.nextLine();
+		int row = Integer.parseInt(reader.next());
+		int col = Integer.parseInt(reader.next());
+		
+		int rowCounter = 0;
+	
+		while (reader.hasNext()) {
+			//is empty checks that we dont count en empty row.
+			String currentLine = reader.nextLine();
+			if(currentLine.isEmpty()!= true) {
+			
+				int colCounter = 0;
+			while(reader.hasNext() == true) {
+				colCounter+=1;
+				String currentColumn = reader.next();
+				Double.parseDouble(currentColumn);
+				if( colCounter != col){
+					throw new DimensionMismatchException();
+				}
+			}
+			rowCounter +=1;
+			if (rowCounter != row) {
+				throw new DimensionMismatchException();
+			}
+			}
+		}
+		
+		
+		
+		
+	}
+	
+	
+	public static void main(String[] args) {
+		if(args.length ==0) {
+			System.out.println("Usage: $ java FormatChecker file1 [file2 ... fileN]");
+		}
+		for(int fileIndex = 0; fileIndex < args.length; fileIndex++) {
+		try {
+			checkFormat(args[fileIndex]);
+			
+		}
+		catch(FileNotFoundException e){
+			System.out.println(e);
+		}
+		catch(NumberFormatException e){
+			System.out.println(e);
+		}
+		catch(DimensionMismatchException e){
+			System.out.println(e);
+		}
+		
+	}
+	}
+}
